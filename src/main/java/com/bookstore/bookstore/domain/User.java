@@ -1,13 +1,27 @@
 package com.bookstore.bookstore.domain;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.bookstore.bookstore.domain.security.Authority;
+import com.bookstore.bookstore.domain.security.UserRole;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class User {
+public class User  implements UserDetails {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -22,6 +36,17 @@ public class User {
 	private String Email;
 	private String Phone;
 	private boolean Enabled=true;
+	
+	@OneToMany(mappedBy = "User", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnore
+	private Set<UserRole> UserRoles = new HashSet<>();
+	
+	public Set<UserRole> getUserRoles() {
+		return UserRoles;
+	}
+	public void setUserRoles(Set<UserRole> userRoles) {
+		UserRoles = userRoles;
+	}
 	public Long getId() {
 		return Id;
 	}
@@ -69,5 +94,21 @@ public class User {
 	}
 	public void setEnabled(boolean enabled) {
 		Enabled = enabled;
-	}		
+	}
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		Set<GrantedAuthority> authorites = new HashSet<>();
+		UserRoles.forEach(ur -> authorites.add(new Authority(ur.getRole().getName())));		
+		return authorites;
+	}
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+	@Override
+	public boolean isCredentialsNonExpired() { return true;	}
 }
