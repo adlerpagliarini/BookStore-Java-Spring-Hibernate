@@ -21,84 +21,30 @@ import com.bookstore.bookstore.domain.security.UserRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class User  implements UserDetails {
+public class User implements UserDetails {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="Id", nullable = false, updatable = false)
-	private Long Id;
-	private String Username;
-	private String Password;
-	private String FirstName;
-	private String LastName;
+	private Long id;
+	private String username;
+	private String password;
+	private String firstName;
+	private String lastName;
 	
 	@Column(name="Email", nullable = false, updatable = false)
-	private String Email;
-	private String Phone;
-	private boolean Enabled=true;
+	private String email;
+	private String phone;
+	private boolean enabled=true;
 	
-	@OneToMany(mappedBy = "User", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
-	private Set<UserRole> UserRoles = new HashSet<>();
+	private Set<UserRole> userRoles = new HashSet<>();	
 	
-	public Set<UserRole> getUserRoles() {
-		return UserRoles;
-	}
-	public void setUserRoles(Set<UserRole> userRoles) {
-		UserRoles = userRoles;
-	}
-	public Long getId() {
-		return Id;
-	}
-	public void setId(Long id) {
-		Id = id;
-	}
-	public String getUsername() {
-		return Username;
-	}
-	public void setUsername(String username) {
-		Username = username;
-	}
-	public String getPassword() {
-		return Password;
-	}
-	public void setPassword(String password) {
-		Password = password;
-	}
-	public String getFirstName() {
-		return FirstName;
-	}
-	public void setFirstName(String firstName) {
-		FirstName = firstName;
-	}
-	public String getLastName() {
-		return LastName;
-	}
-	public void setLastName(String lastName) {
-		LastName = lastName;
-	}
-	public String getEmail() {
-		return Email;
-	}
-	public void setEmail(String email) {
-		Email = email;
-	}
-	public String getPhone() {
-		return Phone;
-	}
-	public void setPhone(String phone) {
-		Phone = phone;
-	}
-	public boolean isEnabled() {
-		return Enabled;
-	}
-	public void setEnabled(boolean enabled) {
-		Enabled = enabled;
-	}
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Set<GrantedAuthority> authorites = new HashSet<>();
-		UserRoles.forEach(ur -> authorites.add(new Authority(ur.getRole().getName())));		
+		userRoles.forEach(ur -> authorites.add(new Authority(ur.getRole().getName())));		
 		return authorites;
 	}
 	@Override
@@ -111,4 +57,58 @@ public class User  implements UserDetails {
 	}
 	@Override
 	public boolean isCredentialsNonExpired() { return true;	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public boolean isEnabled() {
+		return enabled;
+	}
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	public Set<UserRole> getUserRoles() {
+		return userRoles;
+	}
+	public void setUserRoles(Set<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}	
 }

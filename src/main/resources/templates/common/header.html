@@ -6,10 +6,10 @@
 <title>BookStore</title>
 
 <!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
 <!-- Custom styles for this template -->
-<link href="style.css" rel="stylesheet" />
+<link href="style.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -46,7 +46,7 @@
 					</form>
 					<ul class="nav navbar-nav navbar-right">
 						<li><a href="../navbar/">SHOPPING CART</a></li>
-						<li><a href="../navbar/">MY ACCOUNT</a></li>
+						<li><a th:href="@{/login}">MY ACCOUNT</a></li>
 						<li><a href="../navbar/">LOGOUT</a></li>
 					</ul>
 				</div>

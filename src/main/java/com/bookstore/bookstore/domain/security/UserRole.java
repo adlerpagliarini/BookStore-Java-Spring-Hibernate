@@ -16,43 +16,43 @@ import com.bookstore.bookstore.domain.User;
 public class UserRole {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Long UserRoleId;
+	private Long userRoleId;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="user_id")
-	private User User;
+	private User user;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="role_id")
-	private Role Role;
-	
+	private Role role;
+
+	public UserRole(User user, Role role) {
+		this.user = user;
+		this.role = role;
+	}
+
 	public Long getUserRoleId() {
-		return UserRoleId;
+		return userRoleId;
 	}
 
 	public void setUserRoleId(Long userRoleId) {
-		UserRoleId = userRoleId;
+		this.userRoleId = userRoleId;
 	}
 
 	public User getUser() {
-		return User;
+		return user;
 	}
 
 	public void setUser(User user) {
-		User = user;
+		this.user = user;
 	}
 
 	public Role getRole() {
-		return Role;
+		return role;
 	}
 
 	public void setRole(Role role) {
-		Role = role;
-	}
-
-	public UserRole(User user, Role role) {
-		this.User = user;
-		this.Role = role;
+		this.role = role;
 	}
 	
 
